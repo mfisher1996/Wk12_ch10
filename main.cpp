@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <ctime>
-#include "arrayListType.h"
+#include "Classes/arrayListType.h"
 
 int main(int argc, const char * argv[]) {
     srand(time(NULL));

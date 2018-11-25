@@ -145,11 +145,57 @@ public:
     //destructor
     //Deallocates the memory occupied by the array.
     
+    void recQuickSort(int first, int last);
+    void quickSort(){recQuickSort(0,length-1);};
+    
 protected:
+	void swap(int first, int second);
+	int partition(int first, int last);
     elemType *list;  //array to hold the list elements
     int length;      //to store the length of the list
     int maxSize;     //to store the maximum size of the list
 };
+
+
+template <class elemType>
+int arrayListType<elemType>::partition(int first, int last){
+	elemType pivot;
+	
+	int index, smallIndex;
+	
+	swap(first, (first+last)/2);
+	
+	pivot = list[first];
+	smallIndex = first;
+	
+	for(index = first+1; index<= last; index++)
+		if(list[index] < pivot){
+			smallIndex++;
+			swap(smallIndex, index);
+		}
+	swap(first, smallIndex);
+	return smallIndex;
+}
+
+template <class elemType>
+void arrayListType<elemType>::swap(int first, int second){
+	
+	elemType temp = list[first];
+	list[first] = list[second];
+	list[second] = temp;
+}
+	
+template <class elemType>
+void arrayListType<elemType>::recQuickSort(int first, int last){
+	int pivotLocation;
+	
+	if (first < last){
+		pivotLocation = partition(first, last);
+		recQuickSort(first, pivotLocation-1);
+		recQuickSort(pivotLocation + 1, last);
+	}
+}
+
 
 template <class elemType>
 bool arrayListType<elemType>::isEmpty() const
@@ -302,7 +348,7 @@ void arrayListType<elemType>::insert(const elemType& insertItem)
         cerr << "Cannot insert in a full list." << endl;
     else
     {
-        loc = seqSearch(insertItem);
+        loc = -1;//seqSearch(insertItem);
         
         if (loc == -1)    //the item to be inserted
             //does not exist in the list
